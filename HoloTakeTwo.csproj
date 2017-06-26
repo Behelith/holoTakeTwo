@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\lane_c.cs" />
+    <Compile Include="Assets\Scripts\map_c.cs" />
     <Compile Include="Assets\Scripts\playerController_c.cs" />
     <Compile Include="Assets\Scripts\slab_c.cs" />
     <Compile Include="Assets\Scripts\slab_ref_c.cs" />

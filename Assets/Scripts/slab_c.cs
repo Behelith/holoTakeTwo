@@ -6,7 +6,7 @@ public class slab_c : MonoBehaviour
 {
 
     public GameObject refSlab;
-    public Color baseColor = new Color(.5f, 0, 0);
+ //   public Color baseColor = new Color(.5f, 0, 0);
     public Color emissionColor = new Color(1, 0, 0);
     public int ID = 0;
 
@@ -18,7 +18,7 @@ public class slab_c : MonoBehaviour
         mask1 = Resources.Load("mask_1") as Texture;
         mask2 = Resources.Load("mask_2") as Texture;
 
-        setEmissionColor(baseColor);
+        setEmissionColor(emissionColor);
     }
 
 
@@ -56,7 +56,7 @@ public class slab_c : MonoBehaviour
             //  setColor();
             //playerController_c pc = 
             GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().time = Time.time;
-            setEmissionColor(emissionColor);
+          //  setEmissionColor(emissionColor);
             setEmissionMask(mask1);
             other.gameObject.GetComponent<playerController_c>().overlappedID = ID;
 
@@ -77,7 +77,7 @@ public class slab_c : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            setEmissionColor(baseColor);
+        //    setEmissionColor(baseColor);
             setEmissionMask(mask2);
             other.gameObject.GetComponent<playerController_c>().overlappedID = -1;
 
