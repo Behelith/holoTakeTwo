@@ -9,6 +9,8 @@ public class lane_c : MonoBehaviour {
     public bool isActive = false;
     public float repeatSpeed = .2f;
     public float offsetSpeed = 0.3f;
+
+    float offset = 0;
     // Use this for initialization
     void Start () {
         setEmissionColor(emissionColor);
@@ -28,13 +30,16 @@ public class lane_c : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
-        float emission;
-        //emission = (isActive ? Mathf.PingPong(Time.time, 1.0f):0);
-        emission = (isActive ? Mathf.Clamp01(1-     Mathf.Sin(Time.time*repeatSpeed) ):0);
-        setEmissionColor(emissionColor * emission);
+      //  float emission;
+      //  emission = (isActive ? 1 : 0) ;
+        //  emission = (isActive ? Mathf.Clamp01(1 - Mathf.Sin(Time.time * repeatSpeed)) : 0);
+        setEmissionColor(emissionColor * (isActive ? 1 : 0));
 
-        float offset = Mathf.Repeat(Time.time * offsetSpeed, 3);
+        if (isActive) 
+        {
+        offset = (offset >= 1 ? 0 : offset+ 0.01f * repeatSpeed);
         gameObject.GetComponent<MeshRenderer>().material.SetTextureOffset("_MainTex", new Vector2(0, offset));
+        }
 
     }
 }

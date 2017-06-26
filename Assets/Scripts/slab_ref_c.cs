@@ -47,6 +47,7 @@ public class slab_ref_c : MonoBehaviour
 
         if (other.gameObject.CompareTag("NoteBlock"))
         {
+            GameObject.FindGameObjectsWithTag("Spawner")[0].GetComponent<spawner_c>().indicatorControl(ID-1, -1) ;
             time = Time.time;
             Destroy(other.gameObject);
             bool var = checkID();
