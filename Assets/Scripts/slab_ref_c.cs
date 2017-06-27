@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class slab_ref_c : MonoBehaviour
 {
-    public int ID;
+    public int refSlabId;
     public float time;
+
+
 
     // Use this for initialization
     void Start()
@@ -21,8 +23,8 @@ public class slab_ref_c : MonoBehaviour
 
     public bool checkID()
     {
-        bool var = (ID == GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().overlappedID);
-        Debug.Log("ID match: " + var + ", ID: " + ID + ", player refID: " + GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().overlappedID);
+        bool var = (refSlabId == GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().overlappedID);
+        Debug.Log("ID match: " + var + ", ID: " + refSlabId + ", player refID: " + GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().overlappedID);
 
         return var;// (ID == GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().overlappedID);
     }
@@ -40,6 +42,11 @@ public class slab_ref_c : MonoBehaviour
     public void matchFound(int amount)
     {
         GameObject.FindGameObjectsWithTag("Spawner")[0].GetComponent<spawner_c>().addPoints(amount);
+        GameObject particle = Instantiate( Resources.Load("particle") as GameObject);
+
+        particle.transform.position = gameObject.transform.position;
+        particle.gameObject.GetComponent<ParticleSystem>().startColor = gameObject.GetComponent<MeshRenderer>().material.GetColor("_EmissionColor")+ new Color(0.7f, 0.7f, 0.7f);
+
         //   GameObject.FindGameObjectsWithTag("Spawner")[0].GetComponent<spawner_c>().playDing();
 
     }
@@ -50,7 +57,9 @@ public class slab_ref_c : MonoBehaviour
 
         if (other.gameObject.CompareTag("NoteBlock"))
         {
-            GameObject.FindGameObjectsWithTag("Spawner")[0].GetComponent<spawner_c>().indicatorControl(ID - 1, -1);
+            //    Debug.Log("refslab! , refslabID: " +(refSlabId));
+            GameObject.FindGameObjectsWithTag("Spawner")[0].GetComponent<spawner_c>().indicatorControl(refSlabId - 1, -1);
+
             time = Time.time;
             Destroy(other.gameObject);
             bool var = checkID();

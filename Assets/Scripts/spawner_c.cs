@@ -18,7 +18,7 @@ public class spawner_c : MonoBehaviour
 
     private Texture mask1, mask2;
 
-
+    public int spawn_override = -1;
 
     // Use this for initialization
     void Start()
@@ -27,39 +27,50 @@ public class spawner_c : MonoBehaviour
         mask2 = Resources.Load("mask_2") as Texture;
 
         mapIndicators[0].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[0]);
-        mapIndicators[3].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[0]);
-        mapIndicators[6].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[0]);
+        mapIndicators[1].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[0]);
+        mapIndicators[2].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[0]);
 
-        mapIndicators[1].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[1]);
+        mapIndicators[3].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[1]);
         mapIndicators[4].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[1]);
-        mapIndicators[7].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[1]);
+        mapIndicators[5].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[1]);
 
-        mapIndicators[2].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[2]);
-        mapIndicators[5].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[2]);
+        mapIndicators[6].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[2]);
+        mapIndicators[7].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[2]);
         mapIndicators[8].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[2]);
 
 
     }
 
-    public void indicatorControl(int index, int value)
+    public void indicatorControl(int noteMaxIndex, int value)
     {
         // zmienia kolory slabow na mapie
-        noteMap[index] += value;
-        int laneIndex = index %3;
+        noteMap[noteMaxIndex] += value;
+        Debug.Log("index: " + noteMaxIndex);
+        int laneIndex = noteMaxIndex % 3;
+        int colorIndex = -1;
+        if (noteMaxIndex > 5)
+            colorIndex = 2;
+        else if (noteMaxIndex > 2)
+            colorIndex = 1;
+        else
+            colorIndex = 0;
 
-
-        if (noteMap[index] > 0)
+        if (noteMap[noteMaxIndex] > 0)
         {
-            mapIndicators[index].gameObject.GetComponent<MeshRenderer>().material.SetTexture("_EmissionMap", mask1);
+            mapIndicators[noteMaxIndex].gameObject.GetComponent<MeshRenderer>().material.SetTexture("_EmissionMap", mask1);
         }
         else
         {
-            mapIndicators[index].gameObject.GetComponent<MeshRenderer>().material.SetTexture("_EmissionMap", mask2);
+            mapIndicators[noteMaxIndex].gameObject.GetComponent<MeshRenderer>().material.SetTexture("_EmissionMap", mask2);
         }
 
         if (noteMap[laneIndex] > 0 || noteMap[laneIndex + 3] > 0 || noteMap[laneIndex + 6] > 0)
         {
+            lanes[laneIndex].gameObject.GetComponent<lane_c>().emissionColor = colors[colorIndex];
+            lanes[laneIndex].gameObject.GetComponent<lane_c>().setColor (colors[colorIndex]);
             lanes[laneIndex].GetComponent<lane_c>().isActive = true;
+           // lanes[laneIndex].gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[colorIndex]);
+
         }
         else
         {
@@ -71,17 +82,31 @@ public class spawner_c : MonoBehaviour
     {
         //Random rand = new Random();
 
-        int index = Mathf.FloorToInt(Random.Range(0, spawners.Length));
-        Debug.Log(index);
+        //  int index = Mathf.FloorToInt(Random.Range(0, spawners.Length));
+        int spawnPointIndex;
+        if (spawn_override != -1) spawnPointIndex = spawn_override;
+        //else  spawnPointIndex = Mathf.FloorToInt(Random.Range(0, spawners.Length));
+        else spawnPointIndex = Mathf.FloorToInt(Random.Range(0, 9));
 
-        int colorIndex = index % 3;
 
-        Debug.Log("Spawn! , index: " + index);
+        //   Debug.Log("Spawn! , index: " + spawnPointIndex);
+        int colorIndex = -1;
+        if (spawnPointIndex > 5)
+            colorIndex = 2;
+        else if (spawnPointIndex > 2)
+            colorIndex = 1;
+        else
+            colorIndex = 0;
+
+
+        //   Debug.Log("Spawn! , index: " + spawnPointIndex);
         GameObject newNoteBlock = Instantiate(noteBlock);
-        newNoteBlock.transform.parent = spawners[index].transform;
+        newNoteBlock.transform.parent = spawners[spawnPointIndex].transform;
 
         newNoteBlock.gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", colors[colorIndex]);
-        indicatorControl(index, 1);
+        indicatorControl(spawnPointIndex, 1);
+        Debug.Log("Spawn! , index: " + spawnPointIndex);
+
     }
 
     void playNote(AudioClip ac)

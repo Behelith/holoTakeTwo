@@ -8,7 +8,7 @@ public class slab_c : MonoBehaviour
     public GameObject refSlab;
  //   public Color baseColor = new Color(.5f, 0, 0);
     public Color emissionColor = new Color(1, 0, 0);
-    public int ID = 0;
+    public int slabID = 0;
 
     private Texture mask1, mask2;
 
@@ -17,6 +17,7 @@ public class slab_c : MonoBehaviour
     {
         mask1 = Resources.Load("mask_1") as Texture;
         mask2 = Resources.Load("mask_2") as Texture;
+
 
         setEmissionColor(emissionColor);
     }
@@ -53,14 +54,14 @@ public class slab_c : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-          //  Debug.Log("slab ID: " + ID);
+          //  Debug.Log("slab ID: " + slabID);
 
             //  setColor();
             //playerController_c pc = 
             GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().time = Time.time;
           //  setEmissionColor(emissionColor);
             setEmissionMask(mask1);
-            other.gameObject.GetComponent<playerController_c>().overlappedID = ID;
+            other.gameObject.GetComponent<playerController_c>().overlappedID = slabID;
 
 
             // czy gracz zdarzyl slapac punkt

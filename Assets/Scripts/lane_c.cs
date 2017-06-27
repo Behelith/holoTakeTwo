@@ -17,12 +17,12 @@ public class lane_c : MonoBehaviour {
         setColor(baseColor);
     }
 
-    void setColor(Color color)
+   public void setColor(Color color)
     {
         gameObject.GetComponent<MeshRenderer>().material.SetColor("_Color", color);
     }
 
-    void setEmissionColor(Color color)
+    public void setEmissionColor(Color color)
     {
         gameObject.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", color);
     }
