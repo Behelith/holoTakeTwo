@@ -21,24 +21,27 @@ public class slab_ref_c : MonoBehaviour
 
     public bool checkID()
     {
-        //   bool var = (ID == GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().overlappedID);
-        //  Debug.Log("ID match: " + var + ", ID: " + ID + ", player refID: " + GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().overlappedID);
+        bool var = (ID == GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().overlappedID);
+        Debug.Log("ID match: " + var + ", ID: " + ID + ", player refID: " + GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().overlappedID);
 
-        return (ID == GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().overlappedID);
+        return var;// (ID == GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().overlappedID);
     }
 
-    public bool checkTime()
+    public float checkTime()
     {
 
         //   float delTime = Mathf.Abs(time - GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().time);
         //   Debug.Log("delta time: " + delTime);
         // if czas > 0 { if delta czasu <= 0.5s = true} 
-        return    (time > 0 ? Mathf.Abs(time - GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().time) <= 0.5 : false);
+        //return    (time > 0 ? Mathf.Abs(time - GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().time) <= 0.5 : false);
+        return (time > 0 ? Mathf.Abs(time - GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().time) : 1);
     }
 
-    public void matchFound()
+    public void matchFound(int amount)
     {
-        GameObject.FindGameObjectsWithTag("Spawner")[0].GetComponent<spawner_c>().playDing();
+        GameObject.FindGameObjectsWithTag("Spawner")[0].GetComponent<spawner_c>().addPoints(amount);
+        //   GameObject.FindGameObjectsWithTag("Spawner")[0].GetComponent<spawner_c>().playDing();
+
     }
 
 
@@ -47,14 +50,14 @@ public class slab_ref_c : MonoBehaviour
 
         if (other.gameObject.CompareTag("NoteBlock"))
         {
-            GameObject.FindGameObjectsWithTag("Spawner")[0].GetComponent<spawner_c>().indicatorControl(ID-1, -1) ;
+            GameObject.FindGameObjectsWithTag("Spawner")[0].GetComponent<spawner_c>().indicatorControl(ID - 1, -1);
             time = Time.time;
             Destroy(other.gameObject);
             bool var = checkID();
 
             if (var)
             {
-                matchFound();
+                matchFound(100);
             }
         }
     }

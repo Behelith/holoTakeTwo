@@ -53,6 +53,8 @@ public class slab_c : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+          //  Debug.Log("slab ID: " + ID);
+
             //  setColor();
             //playerController_c pc = 
             GameObject.FindGameObjectsWithTag("Player")[0].GetComponent<playerController_c>().time = Time.time;
@@ -62,8 +64,9 @@ public class slab_c : MonoBehaviour
 
 
             // czy gracz zdarzyl slapac punkt
-            if (refSlab.gameObject.GetComponent<slab_ref_c>().checkTime() & refSlab.gameObject.GetComponent<slab_ref_c>().checkID())
-                refSlab.gameObject.GetComponent<slab_ref_c>().matchFound();
+            float deltaTime = refSlab.gameObject.GetComponent<slab_ref_c>().checkTime();
+            if (deltaTime <=.5f && refSlab.gameObject.GetComponent<slab_ref_c>().checkID())
+                refSlab.gameObject.GetComponent<slab_ref_c>().matchFound(60+ Mathf.FloorToInt(deltaTime*20));
 
 
 
