@@ -15,12 +15,12 @@ public class playerController_c : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        float moveH = Input.GetAxis("Horizontal");
-        float moveV = Input.GetAxis("Vertical");
-        rb.transform.position += new Vector3(moveH, 0, moveV) * speed;
+        //float moveH = Input.GetAxis("Horizontal");
+        //float moveV = Input.GetAxis("Vertical");
+        //rb.transform.position += new Vector3(moveH, 0, moveV) * speed;
 
-        if (Input.GetKeyDown(KeyCode.I))
-            Debug.Log("overlapped ID: " + overlappedID);
+        //if (Input.GetKeyDown(KeyCode.I))
+        //    Debug.Log("overlapped ID: " + overlappedID);
 
         //    rb.AddForce(movement);
 
